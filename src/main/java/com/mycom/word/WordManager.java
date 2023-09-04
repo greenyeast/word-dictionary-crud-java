@@ -13,7 +13,10 @@ public class WordManager {
 
         while(true){
             int menu = selectMenu();
-            if (menu == 0) break;
+            if (menu == 0) {
+                System.out.println("영어 단어장이 종료되었습니다.");
+                break;
+            }
 
             if (menu == 1){
                 wordCRUD.listAll();
@@ -27,11 +30,11 @@ public class WordManager {
             else if (menu == 4) {
                 wordCRUD.addItem();
             }
-            else if (menu == 5) {
-
+            else if (menu == 5) {       // update
+                wordCRUD.updateItem();
             }
-            else if (menu == 6) {
-
+            else if (menu == 6) {       // delete
+                wordCRUD.deleteItem();
             }
             else if (menu == 7) {
 
