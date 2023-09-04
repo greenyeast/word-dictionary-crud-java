@@ -14,6 +14,8 @@ public class WordManager {
         wordCRUD.loadFile();
         while(true){
             int menu = selectMenu();
+            System.out.println();
+
             if (menu == 0) {
                 System.out.println("영어 단어장이 종료되었습니다.");
                 break;
