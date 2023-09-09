@@ -82,6 +82,10 @@ public class WordCRUD implements ICRUD{
             idlist.add(i);		// keyword 포함하는 arraylist에 추가
             j++;
         }
+
+        if( (idlist.isEmpty()) ){
+            System.out.println("검색 단어가 없습니다.");
+        }
         System.out.println("-----------------------------");
         return idlist;
     }
@@ -99,6 +103,10 @@ public class WordCRUD implements ICRUD{
             System.out.println(list.get(i).toString());
             j++;
         }
+
+        if( (idlist.isEmpty()) ){
+            System.out.println("해당 레벨의 단어는 없습니다.");
+        }
         System.out.println("-----------------------------");
     }
     public void updateItem() {
@@ -114,14 +122,28 @@ public class WordCRUD implements ICRUD{
         String meaning = s.nextLine();		// 공백, 엔터 포함하여 입력 받기
         Word word = list.get(idlist.get(id-1));		// 실제 idlist에는 0번부터 값이 들어감
         word.setMeaning(meaning);
-        System.out.println("단어가 수정되었습니다. ");
+        System.out.println("\n단어가 수정되었습니다. \n");
     }
 
+    public boolean hasMatchingItems(ArrayList<Integer> idlist){
+        return !idlist.isEmpty(); // 아이템이 ArrayList안에 있으면 true 리턴
+    }
     public void deleteItem() {
-        System.out.print("=> 삭제할 단어 검색 : ");		// 검색 결과가 없으면 메뉴로 돌아가게 처리
+        // TODO 메뉴로 돌아가기 기능- 언제어디서든 입력을 할때 'q!'라는 문자열을 입력하면 메뉴로 돌아가기
+
+        // Prompt for the word to be deleted
+        System.out.print("=> 삭제할 단어 검색 : ");        // 없으면 취소, 메뉴로 돌아가기
         String keyword = s.next();
         ArrayList<Integer> idlist = this.listAll(keyword);
 
+        // Keep asking until a valid word is found
+        while( !(hasMatchingItems(idlist)) ){
+            System.out.print("=> 삭제할 단어 검색 : ");        // 없으면 취소, 메뉴로 돌아가기
+            keyword = s.next();
+            idlist = this.listAll(keyword);
+        }
+
+        // Prompt for the selection of the word to delete
         System.out.print("=> 삭제할 번호 선택 : ");
         int id = s.nextInt();
         s.nextLine();		// 엔터 소모
@@ -129,21 +151,21 @@ public class WordCRUD implements ICRUD{
         System.out.print("=> 정말로 삭제하실래요?(Y/n) ");
         String ans = s.next();		// 공백, 엔터 포함하여 입력 받기
         if(ans.equalsIgnoreCase("y")){
-            list.remove((int)idlist.get(id-1));		// ArrayList의 remove() 파라미터는 object 또는 삭제할 인덱스 정수
-            System.out.println("단어가 삭제되었습니다. ");
+            int indexToRemove = idlist.get(id-1);
+            list.remove( indexToRemove );		// ArrayList의 remove() 파라미터는 object 또는 삭제할 인덱스 정수, type-casting 필요 (int)
+            System.out.println("선택한 단어 삭제 완료!!! \n");
         }else {
-            System.out.println("취소되었습니다. ");
+            System.out.println("취소되었습니다. \n");
         }
-
     }
 
     public void loadFile() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fname));
+            BufferedReader br = new BufferedReader(new FileReader(fname));      // 데이터를 읽어올때 사용하는 객체
             String line;
             int count = 0;
             while(true) {
-                line = br.readLine();
+                line = br.readLine();           // BufferedReader는 텍스트 파일만 읽어오는 것이 아님, 통신할때 사용 가능
                 if(line == null) break;
                 String data[] = line.split("\\|");		// 문자 |
                 int level = Integer.parseInt(data[0]);
