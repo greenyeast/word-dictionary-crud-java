@@ -16,7 +16,7 @@ create CRUD and manage a file with SQLite database in Java program
 <img src="./screenshots/Create_Read.png" width="400px" title="Github_Logo"/>
 
 #### Update and Delete and search the data
-<img src="./screenshots/Update_Delete.png.png" width="400px" title="Github_Logo"/>
+<img src="./screenshots/Update_Delete.png" width="400px" title="Github_Logo"/>
 
 ## Key Features
 ----------------------------
