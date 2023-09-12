@@ -1,6 +1,11 @@
 package com.mycom.word;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -83,7 +88,7 @@ public class WordCRUD implements ICRUD{
             j++;
         }
 
-        if( (idlist.isEmpty()) ){
+        if( j == 0 ){
             System.out.println("검색 단어가 없습니다.");
         }
         System.out.println("-----------------------------");
@@ -104,7 +109,7 @@ public class WordCRUD implements ICRUD{
             j++;
         }
 
-        if( (idlist.isEmpty()) ){
+        if( j == 0 ){
             System.out.println("해당 레벨의 단어는 없습니다.");
         }
         System.out.println("-----------------------------");
@@ -113,6 +118,12 @@ public class WordCRUD implements ICRUD{
         System.out.print("=> 수정할 단어 검색 : ");
         String keyword = s.next();
         ArrayList<Integer> idlist = this.listAll(keyword);
+
+        while( !(hasMatchingItems(idlist)) ){
+            System.out.print("=> 수정할 단어 검색 : ");
+            keyword = s.next();
+            idlist = this.listAll(keyword);
+        }
 
         System.out.print("=> 수정할 번호 선택 : ");
         int id = s.nextInt();
@@ -129,8 +140,6 @@ public class WordCRUD implements ICRUD{
         return !idlist.isEmpty(); // 아이템이 ArrayList안에 있으면 true 리턴
     }
     public void deleteItem() {
-        // TODO 메뉴로 돌아가기 기능- 언제어디서든 입력을 할때 'q!'라는 문자열을 입력하면 메뉴로 돌아가기
-
         // Prompt for the word to be deleted
         System.out.print("=> 삭제할 단어 검색 : ");        // 없으면 취소, 메뉴로 돌아가기
         String keyword = s.next();
@@ -153,7 +162,7 @@ public class WordCRUD implements ICRUD{
         if(ans.equalsIgnoreCase("y")){
             int indexToRemove = idlist.get(id-1);
             list.remove( indexToRemove );		// ArrayList의 remove() 파라미터는 object 또는 삭제할 인덱스 정수, type-casting 필요 (int)
-            System.out.println("선택한 단어 삭제 완료!!! \n");
+            System.out.println("\n선택한 단어 삭제 완료!!! \n");
         }else {
             System.out.println("취소되었습니다. \n");
         }
@@ -178,7 +187,6 @@ public class WordCRUD implements ICRUD{
             System.out.println("==> " + count + "개 로딩 완료!!!");
 
         } catch (IOException e) {
-
             e.printStackTrace();
         }
     }
@@ -191,15 +199,15 @@ public class WordCRUD implements ICRUD{
             }
 
             pr.close();
-            System.out.println("===> 데이터 저장 완료!!!");
+            System.out.println("===> 데이터 저장 완료!!!\n");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // throw 해서 에러처리 넘기기 가능
             e.printStackTrace();
         }
 
     }
     public void searchLevel() {
-        System.out.print("=> 원하는 레벨은? (1~3) ");
+        System.out.print("=> 레벨(1:초급, 2:중급, 3:고급) 선택: ");
         int level = s.nextInt();
         listAll(level);
     }

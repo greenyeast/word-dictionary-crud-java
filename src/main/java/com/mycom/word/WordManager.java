@@ -10,7 +10,7 @@ public class WordManager {
     }
 
     public void start(){
-
+        // TODO 메뉴로 돌아가기 기능- 언제어디서든 입력을 할때 'q!'라는 문자열을 입력하면 메뉴로 돌아가기
         wordCRUD.loadFile();
         while(true){
             int menu = selectMenu();

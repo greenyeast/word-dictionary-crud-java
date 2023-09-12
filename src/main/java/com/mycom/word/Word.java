@@ -45,7 +45,6 @@ public class Word {
       */
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         String slevel = "";
         for(int i=0; i<level; i++) slevel += "*";
         String str = String.format("%-3s", slevel)
